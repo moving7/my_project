@@ -14,7 +14,7 @@
 <div class="result-wrap">
     <div class="result-content">
         <center>
-            <form action="/submit_do" method="get" enctype="multipart/form-data">
+            <form action="/data/submit_data" method="post" enctype="multipart/form-data">
                 <table class="insert-tab" width="75%">
                     <tbody>
 
@@ -33,18 +33,20 @@
                                                            id="end_time" onClick="WdatePicker()">
                         </td>
                     </tr>
-                    <!--<tr>
+                    <tr>
                         <th width="120"><i class="require-red">*</i>提醒:</th>
                         <td>
-                                <select name="" id="">
+                            <select name="ahead" id="">
                                     <option value="0">-- 不提醒 --</option>
-                                    <option value="0">提前15分钟</option>
-                                    <option value="0">提前30分钟</option>
-                                    <option value="0">提前1小时</option>
-                                    <option value="0">提前2小时</option>
+                                <option value="900">提前15分钟</option>
+                                <option value="1800">提前30分钟</option>
+                                <option value="3600">提前1小时</option>
+                                <option value="7200">提前2小时</option>
+                                <option value="86400">提前1天</option>
+                                <option value="172800">提前2天</option>
                                 </select>
                         </td>
-                    </tr>-->
+                    </tr>
 
 
                     <tr>

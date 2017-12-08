@@ -174,7 +174,6 @@ function array_map_recursive($filter, $data)
     return $result;
 }
 
-// TODO 其他安全过滤
 function wei_filter(&$value)
 {
 

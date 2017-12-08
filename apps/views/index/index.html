@@ -35,9 +35,6 @@
                     var d = date.getDate();
                     var m = date.getMonth();
                     var y = date.getFullYear();
-//		var tn = new Date(y,m,d);
-//		console.log(tn)
-//		alert('加载ing 请稍候')
                     $("#calendar").fullCalendar(
                             {
                                 header: {
@@ -54,7 +51,8 @@
                                 editable: true,
                                 events: function (start, end, callback) {
                                     $.ajax({
-                                        url: '/get_xml',
+                                        url: '/data/get_data',
+                                        type: 'post',
                                         dataType: 'json',
                                         data: {
                                             // ourhypothetical feed requires UNIX timestamps
@@ -74,47 +72,10 @@
                                             callback(events);
                                         },
                                         error: function (msg) {
-//                                            console.log(msg)
-//                                            alert(4)
+                                            console.log(msg)
                                         }
                                     });
                                 },
-//                                events: [
-//                                    {
-//                                        title: '审核项目代码，准备上线',
-//                                        start: new Date(y, m, 1),
-//                                        end: new Date(y,m,3),
-//                                        url: 'http://yun.115.com'
-//                                    },
-//                                    {
-//                                        title: '下午去分公司开会',
-//                                        start: new Date(y, m, 16),
-////					end: new Date(y,m,7),
-//                                        url: 'http://yun.115.com'
-//
-//                                    },
-//                                    {
-//                                        title: '测试数据',
-//                                        start: new Date(y,m,5),
-//                                        end: new Date(y,m,9)
-//                                    },
-//                                    {
-//                                        title:'三碗不过刚',
-//                                        start: new Date(y,m,18)
-////					end:new Date(y,m,18),
-//                                    },
-//                                    {
-//                                        title:'工作计划 （月报）',
-//                                        start: new Date(y,m+1,1),
-//                                        end: new Date(y,m+1,2)
-//
-//                                    },
-//                                    {
-//                                        title:'等待审核',
-//                                        start:new Date(y,m+1,3),
-//                                        end: new Date(y,m+1,5)
-//                                    }
-//                                ],
                                 dayClick: function (dayDate, allDay, jsEvent, view) { //点击单元格事件
                                     var d = $.fullCalendar.formatDate(dayDate, "dddd");
                                     var m = $.fullCalendar.formatDate(dayDate, "yyyy年MM月dd日");
@@ -195,7 +156,7 @@
 <body>
 <div id="msgTopTipWrapper" style="display:none">
     <div id="msgTopTip">
-        <span><i class="iconTip"></i>正在载入日历数据...</span>
+        <!--<span><i class="iconTip"></i>正在载入日历数据...</span>-->
     </div>
 </div>
 <div class="calendarWrapper">
@@ -219,7 +180,7 @@
 </body>
 <script>
     function date_add() {
-        location.href = "/data_add";
+        location.href = "/data/add";
     }
 </script>
 </html>

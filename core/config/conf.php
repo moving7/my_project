@@ -11,4 +11,8 @@ return [
     'DEFAULT_FILTER' => 'htmlspecialchars',
     /*默认时区*/
     'TIMEZONE' => 'PRC',
+    /*控制计划任务*/
+    'PLAN_START' => 1,
+    /*预先执行时间 单位s*/
+    'BEFORE_TIME' => 0
 ];

@@ -18,7 +18,7 @@ define('APP', WEI . '/apps');
 /*定义模块*/
 define('MODULE', 'apps');
 /*调错模式*/
-define('DEBUG', false);
+define('DEBUG', true);
 if (file_exists('vendor/autoload.php')) {
     include_once "vendor/autoload.php";
 }

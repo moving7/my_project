@@ -40,7 +40,7 @@ class wei
             $controller = new $ctrlClass();
             /*执行对应方法*/
             $controller->$action();
-            log::log('Controller:' . $controllerClass . 'action:' . $action);
+            log::log('Controller:' . $controllerClass . ' action:' . $action);
         } else {
             /*抛出异常*/
             throw new \Exception('找不到控制器' . $controllerClass);
