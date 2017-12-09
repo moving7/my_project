@@ -39,6 +39,7 @@ class PlanController extends wei
         } else {
 //            p($arr);die;
             include_once 'mail/class.phpmailer.php';
+
             /*服务器信息*/
             foreach ($arr as $k => $v) {
                 $mail = new \PHPMailer();
@@ -62,19 +63,45 @@ class PlanController extends wei
                     if (!$d) {
                         $status = 2;
                     } else {
-                        echo 'OK1';
                         $status = 1;
                     }
                 } else {
                     $status = 0;
                 }
-                sleep(0.001);
-                (new Mail_log())->add(['d_id' => $v['id'], 'email' => $v['email'], 'status' => $status, 'send_time' => time()]);
+                $redis = new \redis();
+                $redis_s = $redis->connect('127.0.0.1', 6379);
+                if (!$redis_s) {
+                    sleep(0.001);
+                    (new Mail_log())->add(['d_id' => $v['id'], 'email' => $v['email'], 'status' => $status, 'send_time' => time()]);
+                } else {
+                    $redis->lpush('send_mail_log', serialize(['d_id' => $v['id'], 'email' => $v['email'], 'status' => $status, 'send_time' => time()]));
+                }
 
             }
-
+            if (!$redis_s) {
+                echo "REDIS Error";
+                die;
+            } else {
+                $add = $redis->lrange('send_mail_log', 0, -1);
+                $count = count($add);
+                $values = '';
+                for ($i = 0; $i < $count; $i++) {
+                    $add = unserialize($redis->rpop('send_mail_log'));
+                    $values .= ",('" . $add['d_id'] . "','" . $add['email'] . "','" . $add['status'] . "','" . $add['send_time'] . "')";
+                }
+                $values = substr($values, 1);
+                $sql = "INSERT INTO 115_mail_log (`d_id`,`email`,`status`,`send_time`) VALUES $values";
+                $log_result = (new Mail_log())->query($sql);
+                if ($log_result) {
+                    echo date("Y-m-d H:i", time()) . 'OK';
+                    die;
+                } else {
+                    echo 'Redis ? ok';
+                    die;
+                }
+            }
         }
-        echo 'OK';
+
     }
 
     public function show()
@@ -90,5 +117,37 @@ class PlanController extends wei
             sleep($interval);// 等待1分钟
         }
         while(true);*/
+    }
+
+    public function test()
+    {
+        $data = ['d_id' => 1, 'email' => 2, 'status' => 1, 'send_time' => time()];
+//        $r = "('1','','',''),(7,'','','')";
+//        $sql = "INSERT INTO 115_mail_log_copy (`d_id`,`email`,`status`,`send_time`) values $r";
+//        (new Mail_log())->query($sql);
+//        die;
+//        echo json_encode($data);
+        $data = json_encode($data);
+//        $res = serialize($data);
+//        p($res);
+//        p(unserialize($res));
+//        die;
+        $redis = new \redis;
+        $redis->connect('127.0.0.1', 6379);
+        for ($i = 0; $i < 100; $i++) {
+            $add = $redis->lPush('test_logs', serialize(['d_id' => $i, 'email' => 2, 'status' => 1, 'send_time' => time()]));
+        }
+
+        $list = $redis->lrange('test_logs', 0, -1);
+//        $re = $redis->rpop('test_logs');
+        p($list);
+        echo '<br>';
+//        p(json_decode($re));
+        die;
+//        (new Mail_log())->add($list);
+        die;
+//        for($i = 0;$i<100;$i++) {
+//            (new Mail_log())->add(['d_id' => 1, 'email' => 2, 'status' => 1, 'send_time' => time()]);
+//        }
     }
 }
