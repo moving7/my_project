@@ -34,6 +34,7 @@ class PlanController extends wei
         }
         if (!$arr) {
 //            p($arr);
+            echo 'Error';
             return false;
         } else {
 //            p($arr);die;
@@ -61,14 +62,17 @@ class PlanController extends wei
                     if (!$d) {
                         $status = 2;
                     } else {
+                        echo 'OK1';
                         $status = 1;
                     }
                 } else {
                     $status = 0;
                 }
-                sleep(0.1);
+                sleep(0.001);
                 (new Mail_log())->add(['d_id' => $v['id'], 'email' => $v['email'], 'status' => $status, 'send_time' => time()]);
+
             }
+
         }
         echo 'OK';
     }

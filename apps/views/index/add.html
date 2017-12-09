@@ -8,35 +8,65 @@
     <script type="text/javascript" src="/public/form/js/modernizr.min.js"></script>
     <!--form end-->
     <!--datepicker-->
-    <script src="/public/datepicker/WdatePicker.js"></script>
+    <!--<script src="/public/datepicker/WdatePicker.js"></script>-->
+    <!--new datetimepicker-->
+    <script src="/public/datetimepicker/datetimepicker.js"></script>
+    <style>
+        body {
+            margin-top: 10px
+        }
+
+        .dateinput {
+            padding-left: 10px;
+            height: 18px;
+            min-width: 200px;
+            line-height: 38px;
+            border: 1px solid #e6e6e6;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+
+        .ahead_input {
+            padding-left: 10px;
+            height: 30px;
+            min-width: 140px;
+            line-height: 38px;
+            border: 1px solid #e6e6e6;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+    </style>
 </head>
 <body>
 <div class="result-wrap">
     <div class="result-content">
         <center>
-            <form action="/data/submit_data" method="post" enctype="multipart/form-data">
+            <form action="/data/submit_data" onsubmit="return check_form()" method="post" enctype="multipart/form-data">
                 <table class="insert-tab" width="75%">
                     <tbody>
 
                     <tr>
                         <th><i class="require-red">*</i>类型:</th>
-                        <td><label for="typ"><input id="typ" name="day_type" class="typ_sel" type="radio" checked="true"
+                        <td>
+                            <label for="typ"><input id="typ" name="day_type" class="typ_sel" type="radio" checked="true"
                                                     value="2"/>一天</label> &nbsp;&nbsp;&nbsp;&nbsp;<label
                                 for="typ2"><input id="typ2" class="typ_sel" value="3" name="day_type"
-                                                  type="radio"/>多天</label></td>
+                                                  type="radio"/>多天</label>
+                        </td>
                     </tr>
                     <tr>
                         <th width="120"><i class="require-red">*</i>日期:</th>
                         <td>
-                            <input class="Wdate" type="text" id="start_time" name="start_time" onClick="WdatePicker()">
-                            &nbsp;&nbsp;&nbsp;&nbsp;<input style="display:" class="Wdate" name="end_time" type="text"
-                                                           id="end_time" onClick="WdatePicker()">
+                            <input class="dateinput" type="text" id="start_time" name="start_time">
+                            &nbsp;&nbsp;&nbsp;&nbsp;<input style="display:none" class="dateinput" name="end_time"
+                                                           type="text"
+                                                           id="end_time">
                         </td>
                     </tr>
                     <tr>
                         <th width="120"><i class="require-red">*</i>提醒:</th>
                         <td>
-                            <select name="ahead" id="">
+                            <select class="ahead_input" name="ahead" id="">
                                     <option value="0">-- 不提醒 --</option>
                                 <option value="900">提前15分钟</option>
                                 <option value="1800">提前30分钟</option>
@@ -54,10 +84,6 @@
                         <td><textarea name="event_info" class="common-textarea" id="rt_content" cols="30"
                                       style="width: 98%;height:160px" rows="10" placeholder="请输入内容"></textarea></td>
                     </tr>
-                    <!--<tr>
-                        <th><i class="require-red">*</i>内容:</th>
-                        <td></td>
-                    </tr>-->
 
                     <tr>
                         <th></th>
@@ -89,6 +115,21 @@
             end_time.style.display = '';
         }
     }
+    laydate.render({
+        elem: '#start_time', //指定元素
+        type: 'datetime',
+        format: 'yyyy-MM-dd HH:mm',
+//         value: new Date(),
+        min: 0,
+        lang: 'cn'
+    });
+    laydate.render({
+        elem: '#end_time', //指定元素
+        type: 'datetime',
+        format: 'yyyy-MM-dd HH:mm',
+        min: 0,
+        lang: 'cn'
+    });
     //监听按钮事件
     $(document).on('click', '.typ_sel', function () {
         var typ_val = $(this).val();
@@ -99,5 +140,31 @@
             $('#end_time').hide();
         }
     })
+
+    function check_form() {
+        var typ_sel = $('input[name="day_type"]:checked').val();
+        var start_time = $('#start_time').val();
+        var end_time = $('#end_time').val();
+        var info = $('#rt_content').val();
+        if (start_time == '') {
+            alert('日程时间不能为空')
+            return false;
+        }
+        if (typ_sel == 3) {
+            if (end_time == '') {
+                alert('日程结束时间不能为空')
+                return false;
+            }
+            if (start_time >= end_time) {
+                alert('您输入的时间有误')
+                return false;
+            }
+        }
+        if (info == '') {
+            alert('日程内容不能为空')
+            return false;
+        }
+        return true;
+    }
 </script>
 <html>
