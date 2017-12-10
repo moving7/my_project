@@ -14,14 +14,8 @@ class DataController extends wei
     public function get_data()
     {
         /*header('Access-Control-Allow-Origin:http://*.115.com');*/
-        $data = Input('get.');
-//        p($data);
-//        echo date('Y-m-d H:i:s',$data['start']);
-//        echo date('Y-m-d H:i:s',$data['end']);
-//        echo date('Y-m-d H:i:s',1511625600);die;
-
+        $data = Input('post.');
         $result = (new DataModel)->where(['is_show = 1', "and start_time>" . date('Y-m-d', 1512008523)])->selectAll();
-//        p($result);
         $this->json_output($result);
     }
 
