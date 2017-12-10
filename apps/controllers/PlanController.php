@@ -119,35 +119,4 @@ class PlanController extends wei
         while(true);*/
     }
 
-    public function test()
-    {
-        $data = ['d_id' => 1, 'email' => 2, 'status' => 1, 'send_time' => time()];
-//        $r = "('1','','',''),(7,'','','')";
-//        $sql = "INSERT INTO 115_mail_log_copy (`d_id`,`email`,`status`,`send_time`) values $r";
-//        (new Mail_log())->query($sql);
-//        die;
-//        echo json_encode($data);
-        $data = json_encode($data);
-//        $res = serialize($data);
-//        p($res);
-//        p(unserialize($res));
-//        die;
-        $redis = new \redis;
-        $redis->connect('127.0.0.1', 6379);
-        for ($i = 0; $i < 100; $i++) {
-            $add = $redis->lPush('test_logs', serialize(['d_id' => $i, 'email' => 2, 'status' => 1, 'send_time' => time()]));
-        }
-
-        $list = $redis->lrange('test_logs', 0, -1);
-//        $re = $redis->rpop('test_logs');
-        p($list);
-        echo '<br>';
-//        p(json_decode($re));
-        die;
-//        (new Mail_log())->add($list);
-        die;
-//        for($i = 0;$i<100;$i++) {
-//            (new Mail_log())->add(['d_id' => 1, 'email' => 2, 'status' => 1, 'send_time' => time()]);
-//        }
-    }
 }

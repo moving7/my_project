@@ -15,6 +15,9 @@ class DataController extends wei
     {
         /*header('Access-Control-Allow-Origin:http://*.115.com');*/
         $data = Input('post.');
+        if (!$data['start']) {
+            return false;
+        }
         $result = (new DataModel)->where(['is_show = 1', "and start_time>" . date('Y-m-d', 1512008523)])->selectAll();
         $this->json_output($result);
     }
@@ -36,7 +39,7 @@ class DataController extends wei
         $res = (new DataModel())->add(['u_id' => 1, 'start_time' => $res['start_time'], 'end_time' => $res['end_time'], 'event_info' => $res['event_info'], 'add_time' => time(), 'is_show' => 1, 'ahead_of_time' => $res['ahead']]);
         if (!$res) {
 //            echo json_encode(['code'=>404,'message'=>'Error']);
-            echo "<script>alert('Error');location.href='/data_add'</script>";
+            echo "<script>alert('Error');location.href='/data/add'</script>";
         } else {
 //            echo json_encode(['code'=>200,'message'=>'Success']);
             echo "<script>alert('Success');location.href='/'</script>";
