@@ -18,7 +18,7 @@ class DataController extends wei
         if (!$data['start']) {
             return false;
         }
-        $result = (new DataModel)->where(['is_show = 1', "and start_time>" . date('Y-m-d', 1512008523)])->selectAll();
+        $result = (new DataModel)->where(['is_show = 1'])->selectAll();
         $this->json_output($result);
     }
 
@@ -36,7 +36,13 @@ class DataController extends wei
         if ($res['day_type'] != 3) {
             $res['end_time'] = null;
         }
-        $res = (new DataModel())->add(['u_id' => 1, 'start_time' => $res['start_time'], 'end_time' => $res['end_time'], 'event_info' => $res['event_info'], 'add_time' => time(), 'is_show' => 1, 'ahead_of_time' => $res['ahead']]);
+        /*不提醒处理*/
+        if ($res['ahead'] == 0) {
+            $is_remind = 2;
+        } else {
+            $is_remind = 0;
+        }
+        $res = (new DataModel())->add(['u_id' => 1, 'start_time' => $res['start_time'], 'end_time' => $res['end_time'], 'event_info' => $res['event_info'], 'add_time' => time(), 'is_show' => 1, 'ahead_of_time' => $res['ahead'], 'is_remind' => $is_remind]);
         if (!$res) {
 //            echo json_encode(['code'=>404,'message'=>'Error']);
             echo "<script>alert('Error');location.href='/data/add'</script>";

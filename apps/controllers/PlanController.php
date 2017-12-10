@@ -74,6 +74,7 @@ class PlanController extends wei
                     sleep(0.001);
                     (new Mail_log())->add(['d_id' => $v['id'], 'email' => $v['email'], 'status' => $status, 'send_time' => time()]);
                 } else {
+                    $redis->del('send_mail_log');
                     $redis->lpush('send_mail_log', serialize(['d_id' => $v['id'], 'email' => $v['email'], 'status' => $status, 'send_time' => time()]));
                 }
 
