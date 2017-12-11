@@ -1,5 +1,5 @@
 # my_project
-# 相关注意事项请参考115-data/readme.txt
+# 相关注意事项请参考115-data/readme
 
 #框架结构<hr />
 #-----apps 应用目录<br />
