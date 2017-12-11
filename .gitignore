@@ -1,6 +1,7 @@
 .idea
 nbproject
 /core/config/database.php
+/core/config/redis.php
 /log
 /storage
 /vender
