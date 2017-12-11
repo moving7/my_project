@@ -69,7 +69,8 @@ class PlanController extends wei
                     $status = 0;
                 }
                 $redis = new \redis();
-                $redis_s = $redis->connect('127.0.0.1', 6379);
+                $redis_s = $redis->connect(conf::get_conf('REDIS_HOST', 'redis'), conf::get_conf('REDIS_PORT', 'redis'));
+                $redis->auth(conf::get_conf('REDIS_PASSWORD', 'redis'));
                 if (!$redis_s) {
                     sleep(0.001);
                     (new Mail_log())->add(['d_id' => $v['id'], 'email' => $v['email'], 'status' => $status, 'send_time' => time()]);
