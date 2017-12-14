@@ -13,7 +13,7 @@ class DataController extends wei
     /*获取日程数据*/
     public function get_data()
     {
-        /*header('Access-Control-Allow-Origin:http://*.115.com');*/
+        header('Access-Control-Allow-Origin:http://*.115.com');
         $data = Input('post.');
         if (!$data['start']) {
             return false;
