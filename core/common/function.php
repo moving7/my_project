@@ -182,3 +182,15 @@ function wei_filter(&$value)
         $value .= ' ';
     }
 }
+
+/*防SQL注入*/
+function checkParam($sql_str)
+{ //防止注入
+    $check = preg_match('/select|insert|update|delete|\'|\/\*|\*|\.\.\/|\.\/|union|into|load_file|outfile/i', $sql_str);
+    if ($check) {
+        echo('非法字符串');
+        exit ();
+    } else {
+        return $sql_str;
+    }
+}

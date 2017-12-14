@@ -32,6 +32,11 @@ class DataController extends wei
     public function submit_data()
     {
         $res = Input('post.', null, 'htmlspecialchars');
+        $res['day_type'] = checkParam($res['day_type']);
+        $res['start_time'] = checkParam($res['start_time']);
+        $res['end_time'] = checkParam($res['end_time']);
+        $res['ahead'] = checkParam($res['ahead']);
+        $res['event_info'] = checkParam($res['event_info']);
         /*判断是否多天*/
         if ($res['day_type'] != 3) {
             $res['end_time'] = null;
