@@ -29,8 +29,6 @@ class route
             if (!$path) {
                 $path = conf::get_conf('DEFAULT_CONTROLLER', 'route');
             }
-            /*url处理*/
-//            $arr = parse_url($_SERVER['REQUEST_URI']);
             // 参数切割处理
             $path_arr = explode(DS, trim($path, DS));
             /*校验第一个参数*/
@@ -60,12 +58,6 @@ class route
                         }
                         $i = $i + 2;
                     }
-                } else {
-//                    $arr['query'] = isset($arr['query']) ? $arr['query'] : '';
-                    /*$arr['query'] = $arr['query'] ?? '';
-                    if($arr['query']) {
-                        $this->convertUrlQuery($arr['query']);
-                    }*/
                 }
             }
         } else {

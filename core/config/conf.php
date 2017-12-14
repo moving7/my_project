@@ -16,5 +16,5 @@ return [
     /*预先执行时间 单位s*/
     'BEFORE_TIME' => 0,
     /*是否开启pathinfo模式*/
-    "IS_PATHINFO" => 1,
+    "IS_PATHINFO" => 1
 ];
