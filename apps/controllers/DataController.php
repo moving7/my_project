@@ -5,7 +5,8 @@
 
 namespace apps\controllers;
 
-use apps\models\DataModel;
+use apps\models\DataModel_r;
+use apps\models\DataModel_w;
 use core\wei;
 
 class DataController extends wei
@@ -18,7 +19,7 @@ class DataController extends wei
         if (!$data['start']) {
             return false;
         }
-        $result = (new DataModel)->where(['is_show = 1'])->selectAll();
+        $result = (new DataModel_r())->where(['is_show = 1'])->selectAll();
         $this->json_output($result);
     }
 
@@ -47,7 +48,7 @@ class DataController extends wei
         } else {
             $is_remind = 0;
         }
-        $res = (new DataModel())->add(['u_id' => 1, 'start_time' => $res['start_time'], 'end_time' => $res['end_time'], 'event_info' => $res['event_info'], 'add_time' => time(), 'is_show' => 1, 'ahead_of_time' => $res['ahead'], 'is_remind' => $is_remind]);
+        $res = (new DataModel_w())->add(['u_id' => 1, 'start_time' => $res['start_time'], 'end_time' => $res['end_time'], 'event_info' => $res['event_info'], 'add_time' => time(), 'is_show' => 1, 'ahead_of_time' => $res['ahead'], 'is_remind' => $is_remind]);
         if (!$res) {
 //            echo json_encode(['code'=>404,'message'=>'Error']);
             echo "<script>alert('Error');location.href='/data/add'</script>";

@@ -6,7 +6,8 @@
 namespace apps\controllers;
 
 use apps\models\Mail_log;
-use apps\models\PlanModel;
+use apps\models\PlanModel_r;
+use apps\models\PlanModel_w;
 use core\lib\conf;
 use core\wei;
 
@@ -18,7 +19,7 @@ class PlanController extends wei
         $time = strtotime(date('Y-m-d H:i', time()));
         $arr = [];
         $before_time = conf::get_conf('BEFORE_TIME', 'conf');
-        $result = (new PlanModel())->get_plan('d.id,start_time,ahead_of_time,event_info,email');
+        $result = (new PlanModel_r())->get_plan('d.id,start_time,ahead_of_time,event_info,email');
         if (!$result) {
             return false;
         }
@@ -59,7 +60,7 @@ class PlanController extends wei
                 $mail->AddAddress($v['email']);
                 // Send发送
                 if ($mail->Send()) {
-                    $d = (new PlanModel())->update($v['id'], ['is_remind' => 1]);
+                    $d = (new PlanModel_w())->update($v['id'], ['is_remind' => 1]);
                     if (!$d) {
                         $status = 2;
                     } else {

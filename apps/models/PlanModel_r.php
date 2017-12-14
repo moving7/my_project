@@ -5,9 +5,9 @@
 
 namespace apps\models;
 
-use core\lib\Model;
+use core\lib\r_Model;
 
-class PlanModel extends Model
+class PlanModel_r extends r_Model
 {
     public $_table = '115_dateinfo';
 

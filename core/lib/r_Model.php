@@ -2,7 +2,7 @@
 
 namespace core\lib;
 
-class Model extends Sql
+class r_Model extends Sql
 {
     protected $_model;
     protected $_table;
@@ -11,8 +11,8 @@ class Model extends Sql
     public function __construct()
     {
         // 连接数据库
-        $this->connect(conf::get_conf('server', 'database'), conf::get_conf('username', 'database'), conf::get_conf('password', 'database'),
-            conf::get_conf('database_name', 'database'));
+        $this->connect(conf::get_conf('r_server', 'database'), conf::get_conf('r_username', 'database'), conf::get_conf('r_password', 'database'),
+            conf::get_conf('r_database_name', 'database'));
 
         // 获取数据库表名
         if (!$this->_table) {
