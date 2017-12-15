@@ -3,6 +3,8 @@
 3.根据业务量来优化session共享 这里采用memcache来完善session共享 配置参考php-memcache.ini 单独预备一台memcahce服务器
 4.配置数据库主从复制
 5.将项目进行读写分离,database.php r 读库配置 w 写库配置
-6.单独预备一台redis服务器
+6.日程表水平拆分成256张以十六进制为尾缀
+7.单独预备一台redis服务器处理异步队列
+8.单独用3台web服务器跑任务进程 每台80个
 
-总计:1台负载 4台web 1台memcache 2台数据库 1台redis 共9台
+总计:1台负载 7台web 1台memcache 2台数据库 1台redis 共12台
