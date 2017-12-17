@@ -13,7 +13,7 @@ class DataModel_w extends w_Model
 
     public function add_data($arr)
     {
-        $sql = "INSERT INTO `115_dateinfo_copy` (u_id,start_time,end_time,event_info,add_time,is_show,ahead_of_time,is_remind) VALUES (:u_id,:start_time,:end_time,:event_info,:add_time,:is_show,:ahead_of_time,:is_remind)";
+        $sql = "INSERT INTO `115_dateinfo` (u_id,start_time,end_time,event_info,add_time,is_show,ahead_of_time,is_remind) VALUES (:u_id,:start_time,:end_time,:event_info,:add_time,:is_show,:ahead_of_time,:is_remind)";
         $sth = $this->_dbHandle->prepare($sql);
         $sth->bindParam(':u_id', $arr['u_id']);
         $sth->bindParam(':start_time', $arr['start_time']);

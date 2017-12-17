@@ -23,4 +23,14 @@ class PlanModel_w extends w_Model
 
         return $sth->fetchAll();
     }
+
+    public function upd_id($id = '')
+    {
+        /*参数过滤*/
+        $id = checkParam($id);
+        $sql = "UPDATE `$this->_table` SET `is_remind`='1' WHERE `id`in ($id)";
+        $sth = $this->_dbHandle->prepare($sql);
+        $result = $sth->execute();
+        return $result;
+    }
 }

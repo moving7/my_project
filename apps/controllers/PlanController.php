@@ -34,77 +34,41 @@ class PlanController extends wei
             }
         }
         if (!$arr) {
-//            p($arr);
-//            echo 'Error';
             return false;
         } else {
-//            p($arr);die;
-            include_once 'mail/class.phpmailer.php';
-
-            /*服务器信息*/
+            $redis = new \redis();
+            $redis_s = $redis->connect(conf::get_conf('REDIS_HOST', 'redis'), conf::get_conf('REDIS_PORT', 'redis'));
+            $redis->auth(conf::get_conf('REDIS_PASSWORD', 'redis'));
             foreach ($arr as $k => $v) {
-                $mail = new \PHPMailer();
-                $mail->IsSMTP();
-                $mail->SMTPAuth = true;
-                $mail->Host = 'smtp.163.com';
-                $mail->Username = 'xw_box';
-                $mail->Password = 'xwmail1';
-                /* 内容信息 */
-                $mail->IsHTML(true);
-                $mail->CharSet = 'utf-8';
-                $mail->From = 'xw_box@163.com';
-                $mail->FromName = '115科技';
-                $mail->Subject = '待办事项';
-                $mail->MsgHTML($v['event_info']);
-                /* 发送邮件 */
-                $mail->AddAddress($v['email']);
-                // Send发送
-                if ($mail->Send()) {
-                    $d = (new PlanModel_w())->update($v['id'], ['is_remind' => 1]);
-                    if (!$d) {
-                        $status = 2;
-                    } else {
-                        $status = 1;
-                    }
-                } else {
-                    $status = 0;
-                }
-                $redis = new \redis();
-                $redis_s = $redis->connect(conf::get_conf('REDIS_HOST', 'redis'), conf::get_conf('REDIS_PORT', 'redis'));
-                $redis->auth(conf::get_conf('REDIS_PASSWORD', 'redis'));
-                if (!$redis_s) {
-                    sleep(0.001);
-                    (new Mail_log())->add(['d_id' => $v['id'], 'email' => $v['email'], 'status' => $status, 'send_time' => time()]);
-                } else {
-                    $redis->del('send_mail_log');
-                    $redis->lpush('send_mail_log', serialize(['d_id' => $v['id'], 'email' => $v['email'], 'status' => $status, 'send_time' => time()]));
-                }
-
-            }
-            if (!$redis_s) {
-                echo "REDIS Error";
-                die;
-            } else {
-                $add = $redis->lrange('send_mail_log', 0, -1);
-                $count = count($add);
-                $values = '';
-                for ($i = 0; $i < $count; $i++) {
-                    $add = unserialize($redis->rpop('send_mail_log'));
-                    $values .= ",('" . $add['d_id'] . "','" . $add['email'] . "','" . $add['status'] . "','" . $add['send_time'] . "')";
-                }
-                $values = substr($values, 1);
-                $sql = "INSERT INTO 115_mail_log (`d_id`,`email`,`status`,`send_time`) VALUES $values";
-                $log_result = (new Mail_log())->query($sql);
-                if ($log_result) {
-                    echo date("Y-m-d H:i", time()) . 'OK';
-                    die;
-                } else {
-                    echo 'Redis ? ok';
-                    die;
-                }
+                $redis->lpush('send_mail_list', serialize($v));
             }
         }
+    }
 
+    public function upd_id()
+    {
+        $redis = new \redis();
+        $redis_s = $redis->connect(conf::get_conf('REDIS_HOST', 'redis'), conf::get_conf('REDIS_PORT', 'redis'));
+        $redis->auth(conf::get_conf('REDIS_PASSWORD', 'redis'));
+        $id_s = '';
+        while (true) {
+            try {
+                $id = $redis->rpop('save_do_id');
+                if (!$id) {
+                    break;
+                } else {
+                    $id_s .= "," . $id;
+                }
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+        if (!$id_s) {
+            return false;
+        } else {
+            $id_s = substr($id_s, 1);
+            (new PlanModel_w())->upd_id($id_s);
+        }
     }
 
     public function show()
