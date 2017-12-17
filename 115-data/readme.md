@@ -3,7 +3,7 @@
 3.将项目core/config下的database_default.php 修改为 database.php 并配置好相关数据库参数 <br />
 4.将项目core/config下的redis_default.php 修改为 redis.php 并配置好相关数据库参数 <br />
 5.将sql文件导入数据库 <br />
-6.请在项目根目录下执行 dos2unix ./plan.sh
+6.请在项目根目录下执行 dos2unix ./plan.sh <br />
 7.修改项目目录下plan.sh中的项目根目录 并给plan.sh可执行权限 <br />
 8.运行./plan.sh <br />
 9.运行项目 <br />

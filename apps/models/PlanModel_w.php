@@ -17,9 +17,9 @@ class PlanModel_w extends w_Model
         if (trim($field) == '') {
             $field = '*';
         }
-        $sql = "select $field from `$this->_table` as d right join 115_users as u on d.u_id = u.id where is_show = 1 and is_remind = 0 and start_time >= '" . date('Y-m-d H:i', time()) . "'";
+        $sql = "select $field from `$this->_table` as d right join 115_users as u on d.u_id = u.id where is_show = :is_show and is_remind = :is_remind and start_time >= :start_time";
         $sth = $this->_dbHandle->prepare($sql);
-        $sth->execute();
+        $sth->execute([':is_show' => 1, ':is_remind' => 0, ':start_time' => date('Y-m-d H:i', time())]);
 
         return $sth->fetchAll();
     }

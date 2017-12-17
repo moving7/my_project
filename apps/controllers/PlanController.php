@@ -29,13 +29,13 @@ class PlanController extends wei
         }
 
         foreach ($result as $k => $v) {
-            if ($v['plan_time'] >= $time - $before_time) {
+            if ($v['plan_time'] == $time - $before_time) {
                 $arr[$k] = $v;
             }
         }
         if (!$arr) {
 //            p($arr);
-            echo 'Error';
+//            echo 'Error';
             return false;
         } else {
 //            p($arr);die;
