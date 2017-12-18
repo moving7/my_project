@@ -5,7 +5,7 @@
 5.将sql文件导入数据库 <br />
 6.请在项目根目录下执行 dos2unix ./plan.sh <br />
 7.修改项目目录下plan.sh中的项目根目录 并给plan.sh可执行权限 <br />
-8.在项目根目录server下worker.php配置好Redis的密码
+8.在项目根目录server下worker.php配置好Redis的密码 <br />
 9.运行./plan.sh <br />
 10.运行项目 <br />
 11.115_users中添加一条用户数据,邮箱必填 <br />
