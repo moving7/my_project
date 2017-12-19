@@ -12,7 +12,7 @@ class w_Model extends Sql
     {
         // 连接数据库
         $this->connect(conf::get_conf('w_server', 'database'), conf::get_conf('w_username', 'database'), conf::get_conf('w_password', 'database'),
-            conf::get_conf('w_database_name', 'database'));
+            conf::get_conf('w_database_name', 'database'), conf::get_conf('w_port', 'database'));
 
         // 获取数据库表名
         if (!$this->_table) {

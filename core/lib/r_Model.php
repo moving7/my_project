@@ -12,7 +12,7 @@ class r_Model extends Sql
     {
         // 连接数据库
         $this->connect(conf::get_conf('r_server', 'database'), conf::get_conf('r_username', 'database'), conf::get_conf('r_password', 'database'),
-            conf::get_conf('r_database_name', 'database'));
+            conf::get_conf('r_database_name', 'database'), conf::get_conf('r_port', 'database'));
 
         // 获取数据库表名
         if (!$this->_table) {

@@ -12,10 +12,10 @@ class Sql
     private $filter = '';
 
     // 连接数据库
-    public function connect($host, $username, $password, $dbname)
+    public function connect($host, $username, $password, $dbname, $port = 3306)
     {
         try {
-            $dsn = sprintf("mysql:host=%s;dbname=%s;charset=utf8", $host, $dbname);
+            $dsn = sprintf("mysql:host=%s;dbname=%s;port=%s;charset=utf8", $host, $dbname, $port);
             $option = array(\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC);
             $this->_dbHandle = new \PDO($dsn, $username, $password, $option);
         } catch (\PDOException $e) {
