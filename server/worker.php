@@ -14,12 +14,12 @@ while (true) {
             $mail->IsSMTP();
             $mail->SMTPAuth = true;
             $mail->Host = 'smtp.163.com';
-            $mail->Username = 'xw_box';
-            $mail->Password = 'xwmail1';
+            $mail->Username = '';
+            $mail->Password = '';
             /* 内容信息 */
             $mail->IsHTML(true);
             $mail->CharSet = 'utf-8';
-            $mail->From = 'xw_box@163.com';
+            $mail->From = '';
             $mail->FromName = '115科技';
             $mail->Subject = '待办事项';
             $mail->MsgHTML($v['event_info']);
